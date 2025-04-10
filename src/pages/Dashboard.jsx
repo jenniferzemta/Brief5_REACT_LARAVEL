@@ -1,13 +1,12 @@
-// Dashboard.jsx
-import React from 'react';
+import TaskList from "../components/tasks/TaskList";
 
 const Dashboard = () => {
   return (
-    <div>
-      <h1>Bienvenue sur le Dashboard</h1>
-      {/* Autres éléments du Dashboard */}
+    <div className="container mx-auto px-4 py-8 max-w-3xl">
+      <h1 className="text-2xl font-bold mb-6">Tableau de bord</h1>
+      <TaskList />
     </div>
   );
 };
 
-export default Dashboard;  // Export par défaut
+export default Dashboard;

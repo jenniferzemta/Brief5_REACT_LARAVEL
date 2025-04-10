@@ -34,6 +34,11 @@ content: [
 @tailwind utilities;
 
 
+
+icone 
+npm install @heroicons/react
+
+
 # TodoList App with Laravel 12 and React
 
 ## Installation

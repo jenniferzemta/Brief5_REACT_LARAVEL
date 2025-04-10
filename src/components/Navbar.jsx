@@ -1,59 +1,33 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { logout, isAuthenticated, getUser } from '../services/auth';
+import { Link } from 'react-router-dom';
+import { logout } from '../services/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userData = await getUser();
-      setUser(userData);
-    };
-    
-    if (isAuthenticated()) {
-      fetchUser();
-    }
-  }, []);
-
   const handleLogout = async () => {
-    await logout();
-    setUser(null);
-    navigate('/login');
+    try {
+      await logout();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   return (
-    <nav className="bg-blue-600 text-white p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
+    <nav className="bg-blue-600 text-white shadow-lg">
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link to="/" className="text-xl font-bold">
           TodoApp
         </Link>
-
+        
         <div className="flex items-center space-x-4">
-          {user ? (
-            <>
-              <span className="hidden sm:inline">Bonjour, {user.name}</span>
-              <button
-                onClick={handleLogout}
-                className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-100"
-              >
-                Déconnexion
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="hover:underline">
-                Connexion
-              </Link>
-              <Link 
-                to="/register" 
-                className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-100"
-              >
-                Inscription
-              </Link>
-            </>
-          )}
+          <button 
+            onClick={handleLogout}
+            className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-100 transition-colors"
+          >
+            Déconnexion
+          </button>
         </div>
       </div>
     </nav>

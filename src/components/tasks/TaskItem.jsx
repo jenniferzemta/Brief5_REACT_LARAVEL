@@ -1,0 +1,135 @@
+import { useState } from 'react';
+import { 
+  PencilIcon, 
+  TrashIcon, 
+  CheckCircleIcon,
+  ArrowPathIcon 
+} from '@heroicons/react/24/outline';
+
+const TaskItem = ({ 
+  task, 
+  onUpdate, 
+  onDelete, 
+  onToggleComplete 
+}) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(task.title);
+  const [editedDescription, setEditedDescription] = useState(task.description);
+  const [editedStatus, setEditedStatus] = useState(task.status);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleUpdate = async () => {
+    if (!editedTitle.trim()) return;
+    
+    setIsLoading(true);
+    try {
+      await onUpdate(task.id, {
+        title: editedTitle,
+        description: editedDescription,
+        status: editedStatus
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Update error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className={`bg-white p-4 rounded-lg shadow mb-3 border-l-4 ${
+      task.status === 'completed' 
+        ? 'border-green-500 bg-green-50' 
+        : task.status === 'in_progress'
+        ? 'border-yellow-500 bg-yellow-50'
+        : 'border-blue-500'
+    }`}>
+      {isEditing ? (
+        <div className="space-y-3">
+          <input
+            type="text"
+            value={editedTitle}
+            onChange={(e) => setEditedTitle(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <textarea
+            value={editedDescription}
+            onChange={(e) => setEditedDescription(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="2"
+          />
+          <select
+            value={editedStatus}
+            onChange={(e) => setEditedStatus(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="pending">En attente</option>
+            <option value="in_progress">En cours</option>
+            <option value="completed">Terminé</option>
+          </select>
+          <div className="flex space-x-2">
+            <button
+              onClick={handleUpdate}
+              disabled={isLoading}
+              className="flex-1 bg-blue-600 text-white py-1 px-3 rounded-md hover:bg-blue-700 disabled:opacity-50"
+            >
+              {isLoading ? 'Enregistrement...' : 'Enregistrer'}
+            </button>
+            <button
+              onClick={() => setIsEditing(false)}
+              className="flex-1 bg-gray-200 text-gray-800 py-1 px-3 rounded-md hover:bg-gray-300"
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-between items-start">
+          <div className="flex-1">
+            <h3 className={`font-medium ${task.status === 'completed' ? 'line-through text-gray-500' : 'text-gray-800'}`}>
+              {task.title}
+            </h3>
+            {task.description && (
+              <p className="text-sm text-gray-600 mt-1">
+                {task.description}
+              </p>
+            )}
+            <span className={`inline-block mt-1 px-2 py-1 text-xs rounded-full ${
+              task.status === 'completed' 
+                ? 'bg-green-100 text-green-800' 
+                : task.status === 'in_progress'
+                ? 'bg-yellow-100 text-yellow-800'
+                : 'bg-blue-100 text-blue-800'
+            }`}>
+              {task.status === 'completed' 
+                ? 'Terminé' 
+                : task.status === 'in_progress'
+                ? 'En cours'
+                : 'En attente'}
+            </span>
+          </div>
+          
+          <div className="flex space-x-2 ml-3">
+            <button
+              onClick={() => setIsEditing(true)}
+              className="p-1 text-gray-500 hover:text-blue-600 transition-colors"
+              title="Modifier"
+            >
+              <PencilIcon className="h-5 w-5" />
+            </button>
+            
+            <button
+              onClick={() => onDelete(task.id)}
+              className="p-1 text-gray-500 hover:text-red-600 transition-colors"
+              title="Supprimer"
+            >
+              <TrashIcon className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default TaskItem;
