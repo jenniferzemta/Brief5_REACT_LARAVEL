@@ -32,3 +32,15 @@ content: [
   @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+# TodoList App with Laravel 12 and React
+
+## Installation
+
+### Backend (Laravel)
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   composer install

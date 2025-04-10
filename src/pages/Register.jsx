@@ -33,6 +33,8 @@ const Register = () => {
   };
 
   return (
+    <div className="min-h-sreen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-12">
+    <div className="w-full max-w-md">
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Inscription</h2>
       
@@ -116,6 +118,8 @@ const Register = () => {
           </a>
         </p>
       </form>
+    </div>
+    </div>
     </div>
   );
 };
