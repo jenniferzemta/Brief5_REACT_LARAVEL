@@ -15,6 +15,7 @@ const TaskItem = ({
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(task.title);
   const [editedDescription, setEditedDescription] = useState(task.description);
+  const [editedDate, setEditedDate] = useState(task.due_date);
   const [editedStatus, setEditedStatus] = useState(task.status);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,6 +27,7 @@ const TaskItem = ({
       await onUpdate(task.id, {
         title: editedTitle,
         description: editedDescription,
+        due_date: editedDate,
         status: editedStatus
       });
       setIsEditing(false);
@@ -57,6 +59,12 @@ const TaskItem = ({
             onChange={(e) => setEditedDescription(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows="2"
+          />
+            <input
+            type="date"
+            value={editedDate}
+            onChange={(e) => setEditedDate(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <select
             value={editedStatus}

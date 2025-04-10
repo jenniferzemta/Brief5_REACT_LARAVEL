@@ -5,6 +5,8 @@ import {  fetchTasks,  createTask, updateTask,   deleteTask, toggleTaskStatus } 
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
+  const [filteredTasks, setFilteredTasks] = useState([]); // Tâches filtrées
+  const [filter, setFilter] = useState('all'); // 'all', 'pending', 'in_progress', 'completed'
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -13,6 +15,7 @@ const TaskList = () => {
       try {
         const tasksData = await fetchTasks();
         setTasks(tasksData);
+        setFilteredTasks(tasksData); // Initialise avec toutes les tâches
       } catch (err) {
         setError(err.message || 'Erreur lors du chargement des tâches');
       } finally {
@@ -23,6 +26,18 @@ const TaskList = () => {
     loadTasks();
   }, []);
 
+
+  // Applique le filtre à chaque changement de `filter` ou de `tasks`
+  useEffect(() => {
+    let filtered = tasks;
+    if (filter !== 'all') {
+      filtered = tasks.filter(task => task.status === filter);
+    }
+    setFilteredTasks(filtered);
+  }, [filter, tasks]);
+
+
+//   creation de tache
   const handleTaskCreated = async (newTask) => {
     try {
       const createdTask = await createTask(newTask);
@@ -92,6 +107,35 @@ const TaskList = () => {
     <div>
       <TaskForm onTaskCreated={handleTaskCreated} />
       
+
+      {/* Barre de filtres */}
+      <div className="flex space-x-2 mb-4 p-2 bg-gray-100 rounded-lg">
+        <button
+          onClick={() => setFilter('all')}
+          className={`px-3 py-1 rounded-md ${filter === 'all' ? 'bg-blue-500 text-white' : 'bg-white'}`}
+        >
+          Toutes
+        </button>
+        <button
+          onClick={() => setFilter('pending')}
+          className={`px-3 py-1 rounded-md ${filter === 'pending' ? 'bg-blue-500 text-white' : 'bg-white'}`}
+        >
+          En attente
+        </button>
+        <button
+          onClick={() => setFilter('in_progress')}
+          className={`px-3 py-1 rounded-md ${filter === 'in_progress' ? 'bg-blue-500 text-white' : 'bg-white'}`}
+        >
+          En cours
+        </button>
+        <button
+          onClick={() => setFilter('completed')}
+          className={`px-3 py-1 rounded-md ${filter === 'completed' ? 'bg-blue-500 text-white' : 'bg-white'}`}
+        >
+          Terminées
+        </button>
+      </div>
+{/* 
       <div className="mb-4">
         <h2 className="text-xl font-semibold mb-2">Mes Tâches ({tasks.length})</h2>
         {tasks.length === 0 ? (
@@ -100,7 +144,24 @@ const TaskList = () => {
           </div>
         ) : (
           <div className="space-y-3">
-            {tasks.map(task => (
+            {tasks.map(task => ( */}
+
+              {/* Liste des tâches (filtrées) */}
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold mb-2">
+          {filter === 'all' ? 'Toutes les tâches' : 
+           filter === 'pending' ? 'Tâches en attente' :
+           filter === 'in_progress' ? 'Tâches en cours' : 'Tâches terminées'} 
+          ({filteredTasks.length})
+        </h2>
+
+        {filteredTasks.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            Aucune tâche {filter !== 'all' ? 'de ce type' : ''}. Ajoutez-en une !
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {filteredTasks.map(task => (
               <TaskItem
                 key={task.id}
                 task={task}
