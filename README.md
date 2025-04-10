@@ -64,3 +64,124 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+# Task Manager App (Laravel + React)
+
+Une application de gestion de tâches collaborative avec authentification, filtres et visibilité des tâches.
+
+## Fonctionnalités
+
+-  Authentification utilisateur (Laravel Sanctum)
+-  CRUD complet des tâches
+-  Filtrage (Toutes/En attente/En cours/Terminées)
+-  Affichage des tâches des autres utilisateurs
+
+## Prérequis
+
+- PHP ≥ 8.1
+- Composer
+- Node.js ≥ 16
+- MySQL/MariaDB
+- Git
+
+## Installation
+
+### 1. Cloner le dépôt
+```bash
+git clone https://github.com/votre-utilisateur/votre-projet.git
+cd votre-projet
+
+
+
+Backend (Laravel)
+# Installer les dépendances
+composer install
+
+# Copier le fichier .env
+cp .env.example .env
+
+# Configurer la base de données dans .env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nom_de_votre_db
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Générer la clé d'application
+php artisan key:generate
+
+# Lancer les migrations 
+php artisan migrate 
+
+# Installer Laravel Sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+
+ # Frontend (React)
+
+cd frontend  # Si votre React est dans un sous-dossier
+npm install
+Configuration
+Variables d'environnement (Backend)
+Dans .env :
+
+ini
+Copy
+APP_URL=http://localhost:8000
+FRONTEND_URL=http://localhost:3000
+SANCTUM_STATEFUL_DOMAINS=localhost:3000
+
+Variables d'environnement (Frontend)
+Créez un fichier .env dans le dossier React :
+
+ini
+REACT_APP_API_URL=http://localhost:8000/api
+Lancement du projet
+
+1. Démarrer le serveur Laravel
+bash
+Copy
+php artisan serve
+Le backend sera accessible sur : http://localhost:8000
+
+2. Démarrer l'application React
+
+cd frontend  # Si nécessaire
+npm start
+Le frontend sera accessible sur : http://localhost:5173 avec vite js
+
+Comptes de test
+Des utilisateurs sont créés via le seeder :
+
+Admin : admin@example.com / password
+
+Utilisateur 1 : user1@example.com / password
+
+Utilisateur 2 : user2@example.com / password
+
+Structure du projet
+Copy
+.
+├── app/               # Backend Laravel
+│   ├── Models/
+│   ├── Http/
+│   └── ...
+├── frontend/          # Frontend React
+│   ├── src/
+│   │   ├── components/
+│   │   ├── services/
+│   │   └── ...
+│   └── package.json
+├── database/          # Migrations et seeders
+└── ...
+Technologies utilisées
+Backend : Laravel 10, Sanctum, Eloquent
+
+Frontend : Vite - React Axios, TailwindCSS
+
+Base de données : MySQL
+
+
+---
+
