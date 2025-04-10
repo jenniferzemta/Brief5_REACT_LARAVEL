@@ -64,7 +64,6 @@ class TaskController extends Controller
             'title' => 'string|max:255',
             'description' => 'string',
             'due_date'=>'date',
-
             'status' => 'in:pending,in_progress,completed', // Valide le statut
         ]);
 

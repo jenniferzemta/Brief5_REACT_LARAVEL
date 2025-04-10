@@ -34,9 +34,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::delete('tasks/{id}', [TaskController::class, 'destroy']);
     
     // Marquer une tâche comme terminée / en cours
-    //Route::patch('tasks/{id}/toggle', [TaskController::class, 'toggleStatus']);
+    Route::patch('tasks/{id}/toggle', [TaskController::class, 'toggleStatus']);
      Route::apiResource('tasks', TaskController::class);
-    Route::patch('/tasks/{task}/toggle', [TaskController::class, 'toggleComplete']);
+//Route::patch('/tasks/{task}/toggle', [TaskController::class, 'toggleComplete']);
     
     // // Bonus: Get all tasks (including other users)
     // Route::get('/all-tasks', [TaskController::class, 'allTasks']);
