@@ -63,9 +63,9 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-indigo-500 shadow-sm z-10">
+    <header className="bg-white shadow-sm z-10">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold text-white">
+        <Link to="/" className="text-xl font-bold text-blue-600">
           TodoApp
         </Link>
         
@@ -74,10 +74,10 @@ const Navbar = () => {
             onClick={() => setIsProfileOpen(!isProfileOpen)}
             className="flex items-center space-x-2 focus:outline-none"
           >
-            <UserCircleIcon className="h-8 w-8 text-white" />
+            <UserCircleIcon className="h-8 w-8 text-gray-500" />
             <div className="text-left hidden md:block">
-              <p className="font-medium text-white">{user.name}</p>
-              <p className="text-xs text-white">{user.email}</p>
+              <p className="font-medium">{user.name}</p>
+              <p className="text-xs text-gray-500">{user.email}</p>
             </div>
             <ChevronDownIcon className={`h-4 w-4 transition-transform ${isProfileOpen ? 'transform rotate-180' : ''}`} />
           </button>

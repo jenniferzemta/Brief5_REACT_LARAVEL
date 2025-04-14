@@ -48,6 +48,8 @@ export const createTask = async (taskData) => {
 export const updateTask = async (taskId, taskData) => {
   try {
     const response = await axios.put(`${API_URL}/tasks/${taskId}`, taskData, getAuthConfig());
+    console.log('Reponse API: ',response);
+    
     return response.data;
   } catch (error) {
     console.error('Error updating task:', error);

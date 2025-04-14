@@ -370,34 +370,262 @@
 
 
 
+// import { useState, useEffect } from 'react';
+// import { Link } from 'react-router-dom';
+// import { 
+//   PencilIcon, 
+//   TrashIcon, 
+//   CheckIcon,
+//   ArrowPathIcon
+// } from '@heroicons/react/24/outline';
+
+// import { fetchTasks, deleteTask, toggleTaskStatus } from '../../services/tasks';
+// import { motion } from 'framer-motion';
+// import TaskItem from './TaskItem';
+
+// const TaskList = () => {
+//   const [tasks, setTasks] = useState([]);
+//   const [filter, setFilter] = useState('all');
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [editingId, setEditingId] = useState(null); // Nouvel état pour gérer l'édition
+//   const [editedTask, setEditedTask] = useState({}); // Stocke les modifications
+
+
+//   useEffect(() => {
+//     const loadTasks = async () => {
+//       try {
+//         const tasksData = await fetchTasks();
+//         setTasks(tasksData);
+//         console.log(tasksData);
+//       } catch (err) {
+//         setError(err.message || 'Erreur lors du chargement des tâches');
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     loadTasks();
+//   }, []);
+
+//   const filteredTasks = filter === 'all' 
+//     ? tasks 
+//     : tasks.filter(task => task.status === filter);
+
+//   const handleStatusChange = async (taskId) => {
+//     try {
+//       const toggledTask = await toggleTaskStatus(taskId);
+//       setTasks(tasks.map(task => 
+//         task.id === taskId ? toggledTask : task
+//       ));
+//     } catch (error) {
+//       console.error("Failed to update task status", error);
+//     }
+//   };
+
+
+//       const handleTaskUpdated = async (taskId, updatedData) => {
+//         try {
+//           const updatedTask = await updateTask(taskId, updatedData);
+//           setTasks(tasks.map(task => 
+//             task.id === taskId ? updatedTask : task
+//           ));
+//           return true; // Indique que la mise à jour a réussi
+//         } catch (err) {
+//           console.error("Échec de la mise à jour", err);
+//           return false; // Indique que la mise à jour a échoué
+//         }
+//       };
+
+
+//   const handleDelete = async (taskId) => {
+//     if (window.confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
+//       try {
+//         await deleteTask(taskId);
+//         setTasks(tasks.filter(task => task.id !== taskId));
+//       } catch (err) {
+//         console.error('Delete error:', err);
+//       }
+//     }
+//   };
+
+//   if (loading) return 
+
+//   <div className="flex items-center justify-center h-screen">
+//   <div className="animate-pulse flex flex-col items-center">
+//     <div className="h-12 w-12 bg-indigo-200 rounded-full mb-4"></div>
+//     <div className="h-4 w-32 bg-indigo-100 rounded"></div>
+//   </div>
+// </div>
+
+//   if (error) return <div className="text-red-500 p-4">{error}</div>;
+
+//   return (
+   
+//     <div className="bg-white rounded-lg shadow overflow-hidden">
+//       {/* En-tête avec filtres */}
+//       <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+
+
+
+//         <h2 className="text-sm font-semibold">
+       
+            
+//           {filter === 'all' ? 'Toutes les tâches' : 
+//            filter === 'pending' ? 'Tâches en attente' :
+//            filter === 'in_progress' ? 'Tâches en cours' : 'Tâches terminées'}
+//           <span className="text-gray-500 ml-2">({filteredTasks.length})</span>
+//         </h2>
+
+       
+//         <div className="flex space-x-2">
+//           <button
+//             onClick={() => setFilter('all')}
+//             className={`px-3 py-1 text-sm rounded-md ${filter === 'all' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}
+//           >
+//             Toutes
+//           </button>
+//           <button
+//             onClick={() => setFilter('pending')}
+//             className={`px-3 py-1 text-sm rounded-md ${filter === 'pending' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}
+//           >
+//             En attente
+//           </button>
+//           <button
+//             onClick={() => setFilter('in_progress')}
+//             className={`px-3 py-1 text-sm rounded-md ${filter === 'in_progress' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}
+//           >
+//             En cours
+//           </button>
+//           <button
+//             onClick={() => setFilter('completed')}
+//             className={`px-3 py-1 text-sm rounded-md ${filter === 'completed' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}
+//           >
+//             Terminées
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* Tableau des tâches */}
+//       <div className="overflow-x-auto">
+//         <table className="min-w-full  divide-y divide-gray-200">
+//           <thead className="bg-gray-50">
+//             <tr>
+//               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
+//                 Statut
+//               </th>
+//               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
+//                 Titre
+//               </th>
+//               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
+//                 Description
+//               </th>
+//               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
+//                 Date
+//               </th>
+//               <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-indigo-500 uppercase tracking-wider">
+//                 Actions
+//               </th>
+//             </tr>
+//           </thead>
+//           <tbody className="bg-white divide-y divide-gray-200">
+//             {filteredTasks.length === 0 ? (
+//               <tr>
+//                 <td colSpan="5" className="px-6 py-4 text-center text-gray-500">
+//                   Aucune tâche trouvée
+//                 </td>
+//               </tr>
+//             ) : (
+//               filteredTasks.map((task) => (
+//                 <tr  key={task.id} className={task.status === 'completed' ? 'bg-gray-50' : 'hover:bg-gray-50'}>
+//                   <td className="px-6 py-4 whitespace-nowrap">
+//                     <button 
+//                       onClick={() => handleStatusChange(task.id)}
+//                       className={`h-5 w-5 rounded border flex items-center justify-center ${
+//                         task.status === 'completed' 
+//                           ? 'bg-green-500 border-green-500' 
+//                           : 'border-gray-300 hover:border-blue-500'
+//                       } transition-colors`}
+//                     >
+//                       {task.status === 'completed' && <CheckIcon className="h-4 w-4 text-white" />}
+//                     </button>
+//                   </td>
+//                   <td className="px-6 py-4 whitespace-nowrap">
+//                     <div className={`${task.status === 'completed' ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+//                       {task.title}
+//                     </div>
+//                   </td>
+//                   <td className="px-6 py-4">
+//                     <div className="text-sm text-gray-500 max-w-xs truncate">
+//                       {task.description || '-'}
+//                     </div>
+//                   </td>
+//                   <td className="px-6 py-4 whitespace-nowrap">
+//                     <div className="text-sm text-gray-500">
+//                       {task.due_date ? new Date(task.due_date).toLocaleDateString() : '-'}
+//                     </div>
+//                   </td>
+
+//                   {/* <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+//                     <button
+//                       onClick={() => setEditingTask(task)}
+//                       className="text-blue-600 hover:text-blue-900 mr-4 inline-flex items-center"
+//                     >
+//                       <PencilIcon className="h-4 w-4 mr-1" />
+//                     </button> */}
+//                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+//                   <Link 
+//                     to={`/tasks/edit/${task.id}`}
+                  
+//                     // state={{ 
+//                     //   task, 
+//                     //   onUpdate: handleTaskUpdated, 
+//                     //   onDelete: handleDelete 
+//                     // }}
+//                     className="text-blue-600 hover:text-blue-900 mr-4 inline-flex items-center"
+//                   >
+//                     <PencilIcon className="h-4 w-4 mr-1" />
+//                   </Link>
+//                     <button 
+//                       onClick={() => handleDelete(task.id)}
+//                       className="text-red-600 hover:text-red-900 inline-flex items-center"
+//                     >
+//                       <TrashIcon className="h-4 w-4 mr-1" /> 
+//                     </button>
+//                   </td>
+//                 </tr>
+//               ))
+//             )}
+//           </tbody>
+//         </table>
+//       </div>
+
+      
+//     </div>
+//   );
+// };
+
+// export default TaskList;
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   PencilIcon, 
   TrashIcon, 
-  CheckIcon,
-  ArrowPathIcon
+  CheckIcon
 } from '@heroicons/react/24/outline';
-
-import { fetchTasks, deleteTask, toggleTaskStatus } from '../../services/tasks';
-import { motion } from 'framer-motion';
-import TaskItem from './TaskItem';
+import { fetchTasks, deleteTask, toggleTaskStatus, updateTask } from '../../services/tasks';
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editingId, setEditingId] = useState(null); // Nouvel état pour gérer l'édition
-  const [editedTask, setEditedTask] = useState({}); // Stocke les modifications
-
 
   useEffect(() => {
     const loadTasks = async () => {
       try {
         const tasksData = await fetchTasks();
         setTasks(tasksData);
-        console.log(tasksData);
       } catch (err) {
         setError(err.message || 'Erreur lors du chargement des tâches');
       } finally {
@@ -421,51 +649,8 @@ const TaskList = () => {
       console.error("Failed to update task status", error);
     }
   };
-// updtae
-  // const handleTaskUpdated = async (taskId, updatedData) => {
-  //       try {
-  //         const updatedTask = await updateTask(taskId, updatedData);
-  //         setTasks(tasks.map(task => 
-  //           task.id === taskId ? updatedTask : task
-  //         ));
-  //       } catch (err) {
-  //         throw err;
-  //       }
-  //     };
-  const handleEdit = (task) => {
-    setEditingId(task.id);
-    setEditedTask({
-      title: task.title,
-      description: task.description,
-      due_date: task.due_date,
-      status: task.status
-    });
-  };
 
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditedTask(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSave = async (taskId) => {
-    try {
-      const updatedTask = await updateTask(taskId, editedTask);
-      setTasks(tasks.map(task => 
-        task.id === taskId ? updatedTask : task
-      ));
-      setEditingId(null);
-    } catch (err) {
-      console.error("Échec de la mise à jour", err);
-    }
-  };
-
-  const handleCancel = () => {
-    setEditingId(null);
-  };
-
+  
       const handleTaskUpdated = async (taskId, updatedData) => {
         try {
           const updatedTask = await updateTask(taskId, updatedData);
@@ -478,6 +663,7 @@ const TaskList = () => {
           return false; // Indique que la mise à jour a échoué
         }
       };
+ 
   const handleDelete = async (taskId) => {
     if (window.confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
       try {
@@ -489,83 +675,53 @@ const TaskList = () => {
     }
   };
 
-  if (loading) return 
-
-  <div className="flex items-center justify-center h-screen">
-  <div className="animate-pulse flex flex-col items-center">
-    <div className="h-12 w-12 bg-indigo-200 rounded-full mb-4"></div>
-    <div className="h-4 w-32 bg-indigo-100 rounded"></div>
-  </div>
-</div>
+  if (loading) return (
+    <div className="flex items-center justify-center h-screen">
+      <div className="animate-pulse flex flex-col items-center">
+        <div className="h-12 w-12 bg-indigo-200 rounded-full mb-4"></div>
+        <div className="h-4 w-32 bg-indigo-100 rounded"></div>
+      </div>
+    </div>
+  );
 
   if (error) return <div className="text-red-500 p-4">{error}</div>;
 
   return (
-   
     <div className="bg-white rounded-lg shadow overflow-hidden">
-      {/* En-tête avec filtres */}
       <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-
-
-
         <h2 className="text-sm font-semibold">
-       
-            
           {filter === 'all' ? 'Toutes les tâches' : 
            filter === 'pending' ? 'Tâches en attente' :
            filter === 'in_progress' ? 'Tâches en cours' : 'Tâches terminées'}
           <span className="text-gray-500 ml-2">({filteredTasks.length})</span>
         </h2>
 
-       
         <div className="flex space-x-2">
-          <button
-            onClick={() => setFilter('all')}
-            className={`px-3 py-1 text-sm rounded-md ${filter === 'all' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}
-          >
-            Toutes
-          </button>
-          <button
-            onClick={() => setFilter('pending')}
-            className={`px-3 py-1 text-sm rounded-md ${filter === 'pending' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}
-          >
-            En attente
-          </button>
-          <button
-            onClick={() => setFilter('in_progress')}
-            className={`px-3 py-1 text-sm rounded-md ${filter === 'in_progress' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}
-          >
-            En cours
-          </button>
-          <button
-            onClick={() => setFilter('completed')}
-            className={`px-3 py-1 text-sm rounded-md ${filter === 'completed' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}
-          >
-            Terminées
-          </button>
+          {['all', 'pending', 'in_progress', 'completed'].map((filt) => (
+            <button
+              key={filt}
+              onClick={() => setFilter(filt)}
+              className={`px-3 py-1 text-sm rounded-md ${
+                filter === filt ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'
+              }`}
+            >
+              {filt === 'all' ? 'Toutes' : 
+               filt === 'pending' ? 'En attente' :
+               filt === 'in_progress' ? 'En cours' : 'Terminées'}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Tableau des tâches */}
       <div className="overflow-x-auto">
-        <table className="min-w-full  divide-y divide-gray-200">
+        <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
-                Statut
-              </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
-                Titre
-              </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
-                Description
-              </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
-                Date
-              </th>
-              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-indigo-500 uppercase tracking-wider">
-                Actions
-              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Statut</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Titre</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Description</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Date</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-indigo-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -577,7 +733,7 @@ const TaskList = () => {
               </tr>
             ) : (
               filteredTasks.map((task) => (
-                <tr  key={task.id} className={task.status === 'completed' ? 'bg-gray-50' : 'hover:bg-gray-50'}>
+                <tr key={task.id} className={task.status === 'completed' ? 'bg-gray-50' : 'hover:bg-gray-50'}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button 
                       onClick={() => handleStatusChange(task.id)}
@@ -591,7 +747,7 @@ const TaskList = () => {
                     </button>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className={`${task.status === 'completed' ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+                    <div className={task.status === 'completed' ? 'line-through text-gray-400' : 'text-gray-900'}>
                       {task.title}
                     </div>
                   </td>
@@ -605,28 +761,15 @@ const TaskList = () => {
                       {task.due_date ? new Date(task.due_date).toLocaleDateString() : '-'}
                     </div>
                   </td>
-
-                  {/* <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button
-                      onClick={() => setEditingTask(task)}
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <Link 
+                      to={`/tasks/edit/${task.id}`}
+                      state={{task}}
                       className="text-blue-600 hover:text-blue-900 mr-4 inline-flex items-center"
                     >
                       <PencilIcon className="h-4 w-4 mr-1" />
-                    </button> */}
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <Link 
-                    to={`/tasks/edit/${task.id}`}
-                  
-                    state={{ 
-                      task, 
-                      onUpdate: handleTaskUpdated, 
-                      onDelete: handleDelete 
-                    }}
-                    className="text-blue-600 hover:text-blue-900 mr-4 inline-flex items-center"
-                  >
-                    <PencilIcon className="h-4 w-4 mr-1" />
-                  </Link>
-                                <button 
+                    </Link>
+                    <button 
                       onClick={() => handleDelete(task.id)}
                       className="text-red-600 hover:text-red-900 inline-flex items-center"
                     >
@@ -639,8 +782,6 @@ const TaskList = () => {
           </tbody>
         </table>
       </div>
-
-      
     </div>
   );
 };
