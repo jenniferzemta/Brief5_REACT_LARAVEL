@@ -21,8 +21,15 @@ class Task extends Model
         'status' => 'string', // Laravel 12 gère mieux les enum natives
     ];
 
+    //user relation ++
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    //tag
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

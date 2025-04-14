@@ -43,7 +43,14 @@ class TaskController extends Controller
 
         // return response()->json($task, 201);
     }
+//  /tache de tous les autres users
 
+            
+        public function allTasks()
+        {
+            // Retourne toutes les tâches de tous les utilisateurs
+            return Task::with('user')->get();
+        }
 
     public function show(Task $task)
     {
