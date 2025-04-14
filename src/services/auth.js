@@ -68,3 +68,21 @@ export const getUser = async () => {
 export const isAuthenticated = () => {
   return localStorage.getItem('token') !== null;
 };
+
+
+// services/auth.js
+export const getUserProfile = async () => {
+  const response = await axios.get('/api/user/profile', getAuthConfig());
+  return response.data;
+};
+
+export const updateUserProfile = async (formData) => {
+  const response = await axios.post('/api/user/profile', formData, {
+    ...getAuthConfig(),
+    headers: {
+      ...getAuthConfig().headers,
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+  return response.data;
+};

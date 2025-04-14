@@ -23,6 +23,8 @@ export const fetchTasks = async () => {
   }
 };
 
+
+
 export const createTask = async (taskData) => {
   try {
     const response = await axios.post(`${API_URL}/tasks`, taskData, getAuthConfig());
@@ -69,4 +71,22 @@ export const toggleTaskStatus = async (taskId) => {
     console.error('Error toggling task status:', error);
     throw error;
   }
+};
+//toutes les tasks
+
+export const fetchAllTasks = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/all-tasks`, getAuthConfig());
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération de toutes les tâches :', error);
+    throw error;
+  }
+};
+
+
+//services/tasks.js
+export const fetchUserTasks = async () => {
+  const response = await axios.get('/api/tasks', getAuthConfig());
+  return response.data;
 };

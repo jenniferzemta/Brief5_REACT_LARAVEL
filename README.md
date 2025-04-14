@@ -17,7 +17,9 @@ If you are developing a production application, we recommend using TypeScript an
 installation tailwind css via vite dans un projet vite react
 
 dans le terminal 
+
 npm install -D tailwindcss@3 postcss autoprefixer
+
 npx tailwindcss init -p
 
 

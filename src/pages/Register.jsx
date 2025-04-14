@@ -24,7 +24,9 @@ const Register = () => {
 
     try {
       await register({ name, email, password, password_confirmation: passwordConfirmation });
-      navigate('/');
+      alert('Incription Reussie');
+      navigate('/login');
+      
     } catch (err) {
       setError(err.message || 'Une erreur est survenue lors de l\'inscription');
     } finally {
@@ -106,7 +108,7 @@ const Register = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`w-full bg-indigo-500 text-white py-2 px-4 rounded hover:bg-blue-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           {loading ? 'Inscription en cours...' : 'S\'inscrire'}
         </button>
